@@ -18,44 +18,69 @@ namespace Lab_2_Domrachev
                 ProgramInfo();
                 InputProcessing.GetData(out List<decimal> array);
                 OutputProcessing.ShowSourseData(array);
-                Console.WriteLine("Хотите ли вы сохранить исходные данные в файл?");
-                Console.WriteLine("Enter - да;");
-                Console.WriteLine("Любая другая клавиша - продолжить без сохранения.");
-                if (Console.ReadKey().Key.ToString() == "Enter")
+                if (IsSourceDataShouldBeSaved())
                 {
                     OutputProcessing sourseData = new();
                     sourseData.SaveSourseData(array);
                 }
+
                 Calculation calculation = new();
                 calculation.OrderArrayByDeletionElements(array);
 
                 OutputProcessing outputProcessing = new();
                 OrderResult result = calculation.result;
                 outputProcessing.ShowResultData(result);
-                Console.WriteLine("Хотите ли вы сохранить результат работы программы в файл?");
-                Console.WriteLine("Enter - да;");
-                Console.WriteLine("Любая другая клавиша - продолжить без сохранения.");
-                if (Console.ReadKey().Key.ToString() == "Enter")
+                if (IsResultDataShouldBeSaved())
                 {
                     outputProcessing.SaveResultData();
                 }
 
-                Console.WriteLine("Хотите ли вы выйти из программы?");
-                Console.WriteLine("Enter - да;");
-                Console.WriteLine("Любая другая клавиша - перезапустить программу.");
-                if (Console.ReadKey().Key.ToString() == "Enter")
-                {
-                    end = true;
-                }
-                else
+                if (IsNeededToRestart())
                 {
                     Console.Clear();
                 }
+                else
+                {
+                    end = true;
+                }
             } while (!end);
             Console.WriteLine("Спасибо за использование!");
-            Console.WriteLine("Hello, World!");
+        }
+        private static bool IsNeededToRestart()
+        {
+            AskToRestart();
+            return Console.ReadKey().Key.ToString() == "Enter";
         }
 
+        private static void AskToRestart()
+        {
+            Console.WriteLine("Хотите ли вы перезапустить программу?");
+            Console.WriteLine("Enter - да;");
+            Console.WriteLine("Любая другая клавиша - выйти из программы.");
+        }
+
+        private static bool IsSourceDataShouldBeSaved()
+        {
+            AskToSaveSourceData();
+            return Console.ReadKey().Key.ToString() == "Enter";
+        }
+        private static void AskToSaveSourceData()
+        {
+            Console.WriteLine("Хотите ли вы сохранить исходные данные в файл?");
+            Console.WriteLine("Enter - да;");
+            Console.WriteLine("Любая другая клавиша - продолжить без сохранения.");
+        }
+        private static bool IsResultDataShouldBeSaved()
+        {
+            AskToSaveResultData();
+            return Console.ReadKey().Key.ToString() == "Enter";
+        }
+        private static void AskToSaveResultData()
+        {
+            Console.WriteLine("Хотите ли вы сохранить результат работы программы в файл?");
+            Console.WriteLine("Enter - да;");
+            Console.WriteLine("Любая другая клавиша - продолжить без сохранения.");
+        }
         /// <summary> 
         /// Вывод информации о программе 
         /// <summary>
